@@ -16,6 +16,11 @@ app.use("/puzzles", puzzleRoutes);
 app.use("/highscores", highscoresRoutes);
 app.use("/rules", rulesRoutes);
 
+app.use("/api/auth", authRoutes);
+app.use("/api/puzzles", puzzleRoutes);
+app.use("/api/highscores", highscoresRoutes);
+app.use("/api/rules", rulesRoutes);
+
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   res.status(status).json({ error: err.message || "Server error" });

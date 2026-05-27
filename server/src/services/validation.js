@@ -1,7 +1,5 @@
 // Validation helpers for Killer Sudoku rules
 
-const DIGITS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-
 function isValidUsername(username) {
   return typeof username === "string" && /^[A-Za-z0-9_]{3,30}$/.test(username);
 }

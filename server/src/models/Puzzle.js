@@ -18,7 +18,7 @@ async function createPuzzle({ creatorId, difficulty, cages }) {
       const cageId = cageResult.insertId;
       for (const cell of cage.cells) {
         await connection.execute(
-          "INSERT INTO cage_cells (cage_id, row, col) VALUES (?, ?, ?)",
+          "INSERT INTO cage_cells (cage_id, row_index, col_index) VALUES (?, ?, ?)",
           [cageId, cell.row, cell.col]
         );
       }
@@ -66,7 +66,7 @@ async function getPuzzleById(puzzleId) {
   for (const cell of cells) {
     const cage = cagesById.get(cell.cage_id);
     if (cage) {
-      cage.cells.push({ row: cell.row, col: cell.col });
+      cage.cells.push({ row: cell.row_index, col: cell.col_index });
     }
   }
 
