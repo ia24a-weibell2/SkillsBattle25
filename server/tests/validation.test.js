@@ -3,8 +3,11 @@ const {
   maxSum,
   validateSolvedGrid,
   isValidUsername,
+  isValidEmail,
   isValidPassword,
   isValidCellValue,
+  checkRowsColsBoxes,
+  checkCages,
 } = require("../src/services/validation");
 
 const solvedGrid = [

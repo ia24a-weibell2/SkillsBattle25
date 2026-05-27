@@ -11,6 +11,12 @@ function cellKey(row, col) {
   return `${row}-${col}`;
 }
 
+const CAGE_COLORS = [
+  "#e0f2fe", "#fce7f3", "#ecfccb", "#ede9fe", "#ffe4e6",
+  "#fef3c7", "#dcfce7", "#e2e8f0", "#fee2e2", "#cffafe",
+  "#f3e8ff", "#f5f5f4",
+];
+
 function PuzzleSolver() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -130,9 +136,14 @@ function PuzzleSolver() {
     const topLeft = cageIndex !== undefined ? topLeftByCage[cageIndex] : null;
     const showSum = topLeft && topLeft.row === row && topLeft.col === col;
     const isHinted = lastHint && lastHint.row === row && lastHint.col === col;
+    const bgColor = isHinted
+      ? "#bbf7d0"
+      : cageIndex !== undefined
+      ? CAGE_COLORS[cageIndex % CAGE_COLORS.length]
+      : "#fff";
 
     return (
-      <div key={key} className={`grid-cell-wrapper ${isHinted ? "hinted" : ""}`} style={borders}>
+      <div key={key} className="grid-cell-wrapper" style={{ ...borders, background: bgColor }}>
         {showSum ? <span className="cage-sum">{puzzle.cages[cageIndex].targetSum}</span> : null}
         <input
           className="grid-cell"

@@ -31,7 +31,20 @@ function HighScores() {
             <th>User</th>
             <th>Time (s)</th>
             <th>Hints</th>
-            <th>Score</th>
+            <th>
+              Score
+              <span className="score-info-wrapper" style={{ marginLeft: "0.4rem" }}>
+                <span className="score-info-icon" aria-label="Score info">i</span>
+                <div className="score-info-tooltip">
+                  <p><strong>Max score: 10,000 pts</strong></p>
+                  <ul>
+                    <li>−1 pt per second elapsed</li>
+                    <li>−500 pts per hint used</li>
+                  </ul>
+                  <p>Solve fast without hints to top the leaderboard!</p>
+                </div>
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
