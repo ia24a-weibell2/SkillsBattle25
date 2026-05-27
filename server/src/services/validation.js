@@ -42,6 +42,9 @@ function validateCages(cages) {
       return "Each cage must have at least one cell";
     }
     const count = cage.cells.length;
+    if (count > 9) {
+      return "Cage cannot contain more than 9 cells";
+    }
     if (cage.targetSum < minSum(count) || cage.targetSum > maxSum(count)) {
       return "Cage target sum not achievable for number of cells";
     }
