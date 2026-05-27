@@ -14,21 +14,21 @@ function Navbar() {
     <header className="navbar">
       <div className="navbar-brand">Killer Sudoku</div>
       <nav className="navbar-links">
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" end>Home</NavLink>
         {token ? (
           <>
             <NavLink to="/puzzles">Browse</NavLink>
             <NavLink to="/create">Create</NavLink>
             <NavLink to="/highscores">High Scores</NavLink>
             <NavLink to="/account">Account</NavLink>
-            <button className="link-button" onClick={handleLogout} type="button">
+            <button className="navbar-logout-button" onClick={handleLogout} type="button">
               Logout
             </button>
           </>
         ) : (
           <>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/register">Register</NavLink>
+            <NavLink to="/login" className="navbar-cta-link">Login</NavLink>
+            <NavLink to="/register" className="navbar-cta-link navbar-cta-primary">Register</NavLink>
           </>
         )}
       </nav>

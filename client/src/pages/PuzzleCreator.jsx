@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 
 function createEmptyGrid() {
@@ -55,6 +56,7 @@ function areCellsOrthogonallyConnected(selectedKeys) {
 }
 
 function PuzzleCreator() {
+  const navigate = useNavigate();
   const [difficulty, setDifficulty] = useState(2);
   const [cages, setCages] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -224,7 +226,12 @@ function PuzzleCreator() {
 
   return (
     <section className="page">
-      <h2>Create Puzzle</h2>
+      <div className="page-header">
+        <h2>Create Puzzle</h2>
+        <button className="back-button" type="button" onClick={() => navigate("/puzzles")}>
+          ← Back to Browse
+        </button>
+      </div>
       <div className="creator-layout">
         <div className="creator-grid">
           {grid.map((row, r) => (

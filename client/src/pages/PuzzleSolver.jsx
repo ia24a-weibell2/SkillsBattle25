@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../services/api";
 import RatingWidget from "../components/RatingWidget.jsx";
 
@@ -13,6 +13,7 @@ function cellKey(row, col) {
 
 function PuzzleSolver() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [puzzle, setPuzzle] = useState(null);
   const [grid, setGrid] = useState(createEmptyGrid());
   const [timeSeconds, setTimeSeconds] = useState(0);
@@ -148,7 +149,12 @@ function PuzzleSolver() {
 
   return (
     <section className="page">
-      <h2>Puzzle #{id}</h2>
+      <div className="page-header">
+        <h2>Puzzle #{id}</h2>
+        <button className="back-button" type="button" onClick={() => navigate("/puzzles")}>
+          ← Back to Browse
+        </button>
+      </div>
       {!puzzle && <p>Loading puzzle...</p>}
       {puzzle && (
         <div className="solver-layout">
@@ -160,11 +166,22 @@ function PuzzleSolver() {
                 </div>
               ))}
             </div>
-            <p className="small">Cages loaded: {puzzle.cages.length}</p>
           </div>
-          <aside className="solver-panel">
-            <p>Time: {timeSeconds}s</p>
-            <p>Hints used: {hintsUsed}</p>
+          <aside className="solver-panel card">
+            <p className="solver-stat">Time: <strong>{timeSeconds}s</strong></p>
+            <p className="solver-stat">Hints used: <strong>{hintsUsed}</strong></p>
+            <div className="score-info-wrapper">
+              <span className="score-info-label">How scoring works</span>
+              <span className="score-info-icon" aria-label="Score info">i</span>
+              <div className="score-info-tooltip">
+                <p><strong>Max score: 10,000 pts</strong></p>
+                <ul>
+                  <li>−1 pt per second elapsed</li>
+                  <li>−500 pts per hint used</li>
+                </ul>
+                <p>Solve fast without hints to top the leaderboard!</p>
+              </div>
+            </div>
             <div className="button-row">
               <button className="secondary-button" type="button" onClick={handleHint}>
                 Hint

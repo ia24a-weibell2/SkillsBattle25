@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import PuzzlePreview from "../components/PuzzlePreview.jsx";
 
 function PuzzleList() {
   const [puzzles, setPuzzles] = useState([]);
@@ -54,10 +55,17 @@ function PuzzleList() {
             onClick={() => navigate(`/puzzles/${puzzle.id}`)}
             type="button"
           >
+            <PuzzlePreview puzzleId={puzzle.id} />
             <h3>Puzzle #{puzzle.id}</h3>
-            <p>Difficulty: {puzzle.difficulty}</p>
-            <p>Creator: {puzzle.creator_username}</p>
-            <p>Average rating: {puzzle.avg_rating ?? "N/A"}</p>
+            <p>
+              {["", "Easy", "Medium", "Hard"][puzzle.difficulty] ?? puzzle.difficulty}
+            </p>
+            <p>by {puzzle.creator_username}</p>
+            <p>
+              {puzzle.avg_rating != null
+                ? `${"★".repeat(Math.round(puzzle.avg_rating))}${"☆".repeat(5 - Math.round(puzzle.avg_rating))} (${Number(puzzle.avg_rating).toFixed(1)})`
+                : "Not yet rated"}
+            </p>
           </button>
         ))}
       </div>
