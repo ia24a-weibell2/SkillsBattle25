@@ -75,17 +75,8 @@ The frontend build output is in `client/dist`.
 
 - `client/` — React frontend (Vite)
 - `server/` — Node.js backend (Express)
-- `docs/` — documentation PDFs (mockups, diagrams, test protocol)
 - `tests/` — aggregated test results
 - `sudoku.sql` — database schema
 
 ## Packaging Checklist (AppDev_Name_FirstName.zip)
 
-Include:
-- `client/` (source)
-- `server/` (source)
-- `client/dist/` (build output)
-- `docs/` (documentation PDFs)
-- `tests/` (test files/results)
-- `sudoku.sql`
-- `README.md`
