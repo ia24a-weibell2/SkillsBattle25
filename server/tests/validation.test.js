@@ -61,3 +61,30 @@ test("cell value range 1-9", () => {
   expect(isValidCellValue(0)).toBe(false);
   expect(isValidCellValue(10)).toBe(false);
 });
+
+// TC02-B5: password exactly 8 chars with 1 digit
+test("password of exactly 8 chars with 1 digit is accepted", () => {
+  expect(isValidPassword("Secret1!")).toBe(true);
+});
+
+// TC04-B1/B2/B3: single-cell cage (n=1) bounds: min=1, max=9
+test("cage sum bounds for n=1 (single-cell cage)", () => {
+  expect(minSum(1)).toBe(1);
+  expect(maxSum(1)).toBe(9);
+  // TC04-B1: sum=1 accepted (equals minSum)
+  expect(1 >= minSum(1) && 1 <= maxSum(1)).toBe(true);
+  // TC04-B2: sum=9 accepted (equals maxSum)
+  expect(9 >= minSum(1) && 9 <= maxSum(1)).toBe(true);
+  // TC04-B3: sum=10 rejected (exceeds maxSum)
+  expect(10 > maxSum(1)).toBe(true);
+});
+
+// TC04-B4/B5: 9-cell cage (n=9) bounds: min=max=45
+test("cage sum bounds for n=9 (full-row cage)", () => {
+  expect(minSum(9)).toBe(45);
+  expect(maxSum(9)).toBe(45);
+  // TC04-B4: sum=45 accepted (only valid value)
+  expect(45 >= minSum(9) && 45 <= maxSum(9)).toBe(true);
+  // TC04-B5: sum=44 rejected (below minSum)
+  expect(44 < minSum(9)).toBe(true);
+});

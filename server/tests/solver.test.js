@@ -101,3 +101,20 @@ test("solves an 80-cell pre-filled puzzle", () => {
   expect(result.solution).not.toBeNull();
   expect(result.solution[8][8]).toBe(9);
 });
+
+// TC11-P2: calling solver twice on the same input returns the same result
+test("solver is deterministic (TC11-P2)", () => {
+  const makeGrid = () => {
+    const g = solvedGrid.map((row) => row.slice());
+    g[0][0] = 0;
+    g[4][4] = 0;
+    return g;
+  };
+  const cages = cagesFromGrid(solvedGrid);
+
+  const result1 = solveKillerSudoku({ grid: makeGrid(), cages });
+  const result2 = solveKillerSudoku({ grid: makeGrid(), cages });
+
+  expect(result1.solution).toEqual(result2.solution);
+  expect(result1.isUnique).toBe(result2.isUnique);
+});
