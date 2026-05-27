@@ -12,6 +12,10 @@ function isValidPassword(password) {
   return typeof password === "string" && password.length >= 8 && /\d/.test(password);
 }
 
+function isValidCellValue(value) {
+  return Number.isInteger(value) && value >= 1 && value <= 9;
+}
+
 function isValidDifficulty(difficulty) {
   return Number.isInteger(difficulty) && difficulty >= 1 && difficulty <= 3;
 }
@@ -146,6 +150,7 @@ module.exports = {
   isValidUsername,
   isValidEmail,
   isValidPassword,
+  isValidCellValue,
   isValidDifficulty,
   minSum,
   maxSum,
