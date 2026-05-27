@@ -193,14 +193,15 @@ function PuzzleSolver() {
                 <p>Solve fast without hints to top the leaderboard!</p>
               </div>
             </div>
-            <div className="button-row">
-              <button className="secondary-button" type="button" onClick={handleHint}>
-                Hint
-              </button>
-              <button className="primary-button" type="button" onClick={handleCheck} disabled={solved}>
+            <div className="solver-actions">
+              <button className="primary-button solver-action-btn" type="button" onClick={handleCheck} disabled={solved}>
                 Check solution
               </button>
-              <button className="secondary-button" type="button" onClick={handleAutoSolve}>
+              <button className="secondary-button solver-action-btn" type="button" onClick={handleHint} disabled={solved}>
+                Get hint  <span className="hint-penalty-label">−500 pts</span>
+              </button>
+              <hr className="solver-action-divider" />
+              <button className="autosolve-button solver-action-btn" type="button" onClick={handleAutoSolve} disabled={solved}>
                 Auto-solve
               </button>
             </div>

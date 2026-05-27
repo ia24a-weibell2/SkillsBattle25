@@ -631,3 +631,53 @@ textarea {
 .password-requirement-ok::before {
   content: "✓ ";
 }
+
+/* --- Solver action buttons --- */
+
+.solver-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.solver-action-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.hint-penalty-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.65;
+  margin-left: 0.25rem;
+}
+
+.solver-action-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 0.25rem 0;
+}
+
+.autosolve-button {
+  width: 100%;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.autosolve-button:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.autosolve-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
