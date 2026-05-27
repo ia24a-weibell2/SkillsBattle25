@@ -2,20 +2,32 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RulesModal from "../components/RulesModal.jsx";
 
+const RULES_COOKIE = "rulesOptOut";
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+function setCookie(name, value, days) {
+  const maxAge = days * 24 * 60 * 60;
+  document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/`;
+}
+
 function Home() {
   const [showRules, setShowRules] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
-    const acknowledged = localStorage.getItem("rulesAcknowledged");
-    if (!acknowledged) {
-      setShowRules(true);
-    }
+    const optOut = getCookie(RULES_COOKIE) === "true";
+    setShowRules(!optOut);
   }, []);
 
-  const handleCloseRules = () => {
-    localStorage.setItem("rulesAcknowledged", "true");
+  const handleCloseRules = (dontShowAgain) => {
+    if (dontShowAgain) {
+      setCookie(RULES_COOKIE, "true", 365);
+    }
     setShowRules(false);
   };
 

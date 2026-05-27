@@ -51,8 +51,8 @@ CREATE TABLE cages (
 CREATE TABLE cage_cells (
   id INT AUTO_INCREMENT PRIMARY KEY,
   cage_id INT NOT NULL,
-  row_index TINYINT NOT NULL,
-  col_index TINYINT NOT NULL,
+  row TINYINT NOT NULL,
+  col TINYINT NOT NULL,
   CONSTRAINT fk_cage_cells_cage
     FOREIGN KEY (cage_id) REFERENCES cages(id)
     ON DELETE CASCADE

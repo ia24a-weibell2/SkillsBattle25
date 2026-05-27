@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 function RulesModal({ isOpen, onClose }) {
+  const [dontShowAgain, setDontShowAgain] = useState(false);
+
   if (!isOpen) return null;
 
   return (
@@ -25,7 +27,19 @@ function RulesModal({ isOpen, onClose }) {
             <figcaption>Solved puzzle - every cage sum is satisfied</figcaption>
           </figure>
         </div>
-        <button className="primary-button" onClick={onClose} type="button">
+        <label className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={dontShowAgain}
+            onChange={(event) => setDontShowAgain(event.target.checked)}
+          />
+          Don't show again
+        </label>
+        <button
+          className="primary-button"
+          onClick={() => onClose(dontShowAgain)}
+          type="button"
+        >
           Got it, let's play!
         </button>
       </div>

@@ -1,21 +1,75 @@
-# Killer Sudoku App (Scaffold)
+# Killer Sudoku App
 
-This repository contains the planned project structure for the Killer Sudoku application.
+This repository contains a full-stack Killer Sudoku application (React + Express + MySQL).
 
-## Quick Start (scaffold phase)
+## Prerequisites
 
-This project is not fully implemented yet, but the structure is ready. These steps outline how to run it once implementation is in place.
+- Node.js 18+ (for client and server)
+- MySQL 8+ running locally
 
-1. Install Node.js (version to be pinned once dependencies are added).
-2. Start MySQL locally and create a database named `sudoku`.
-3. Run the schema script: `sudoku.sql`.
-4. Create environment files from the examples:
-   - `server/.env.example` → `server/.env`
-   - `client/.env.example` → `client/.env`
-5. Add the required images:
-   - `client/public/assets/unsolved_example.png`
-   - `client/public/assets/solution_example.png`
-6. Install dependencies and start dev servers for client and server.
+## Database Setup
+
+1. Create database `sudoku` (or update `server/.env` to match your DB name).
+2. Run the schema in `sudoku.sql`.
+
+## Environment Files
+
+Copy the example env files and fill in values:
+
+- `server/.env.example` → `server/.env`
+- `client/.env.example` → `client/.env`
+
+At minimum set these in `server/.env`:
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_NAME`
+- `JWT_SECRET`
+
+Optional: in `client/.env` set `VITE_API_BASE_URL` (defaults to `http://localhost:4000/api`).
+
+## Install Dependencies
+
+```bash
+cd server
+npm install
+```
+
+```bash
+cd client
+npm install
+```
+
+## Run the App (Dev)
+
+```bash
+cd server
+npm start
+```
+
+```bash
+cd client
+npm run dev
+```
+
+The client runs on `http://localhost:5173` and calls the API at `http://localhost:4000/api` by default.
+
+## Run Tests
+
+```bash
+cd server
+npm test
+```
+
+## Build for Submission
+
+```bash
+cd client
+npm run build
+```
+
+The frontend build output is in `client/dist`.
 
 ## Folder Layout
 
@@ -25,7 +79,13 @@ This project is not fully implemented yet, but the structure is ready. These ste
 - `tests/` — aggregated test results
 - `sudoku.sql` — database schema
 
-## Notes
+## Packaging Checklist (AppDev_Name_FirstName.zip)
 
-- Once implementation starts, this README will include exact commands for install, run, and tests.
-- The `public/` folder at the repo root is from the earlier scaffold; new assets should live under `client/public/`.
+Include:
+- `client/` (source)
+- `server/` (source)
+- `client/dist/` (build output)
+- `docs/` (documentation PDFs)
+- `tests/` (test files/results)
+- `sudoku.sql`
+- `README.md`
