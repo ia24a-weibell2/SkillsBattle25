@@ -9,6 +9,51 @@ function cellKey(row, col) {
   return `${row}-${col}`;
 }
 
+function cageColor(index) {
+  const palette = [
+    "#e0f2fe",
+    "#fce7f3",
+    "#ecfccb",
+    "#ede9fe",
+    "#ffe4e6",
+    "#fef3c7",
+    "#dcfce7",
+    "#e2e8f0",
+    "#fee2e2",
+    "#cffafe",
+    "#f3e8ff",
+    "#f5f5f4",
+  ];
+  return palette[index % palette.length];
+}
+
+function areCellsOrthogonallyConnected(selectedKeys) {
+  if (selectedKeys.length <= 1) return true;
+  const coords = selectedKeys.map((key) => key.split("-").map(Number));
+  const keySet = new Set(selectedKeys);
+  const visited = new Set();
+  const queue = [coords[0]];
+  visited.add(`${coords[0][0]}-${coords[0][1]}`);
+
+  while (queue.length > 0) {
+    const [row, col] = queue.shift();
+    const neighbors = [
+      [row - 1, col],
+      [row + 1, col],
+      [row, col - 1],
+      [row, col + 1],
+    ];
+    for (const [nr, nc] of neighbors) {
+      const nkey = `${nr}-${nc}`;
+      if (!keySet.has(nkey) || visited.has(nkey)) continue;
+      visited.add(nkey);
+      queue.push([nr, nc]);
+    }
+  }
+
+  return visited.size === selectedKeys.length;
+}
+
 function PuzzleCreator() {
   const [difficulty, setDifficulty] = useState(2);
   const [cages, setCages] = useState([]);
@@ -42,7 +87,7 @@ function PuzzleCreator() {
     setMessage("");
     const key = cellKey(row, col);
     if (cageByCell.has(key)) {
-      setMessage("Cell already belongs to a cage.");
+      setMessage("Cell already in a cage - delete it first.");
       return;
     }
     setSelected((prev) => {
@@ -57,6 +102,10 @@ function PuzzleCreator() {
     setMessage("");
     if (selected.length === 0) {
       setMessage("Select at least one cell to create a cage.");
+      return;
+    }
+    if (!areCellsOrthogonallyConnected(selected)) {
+      setMessage("Cells must be orthogonally connected (no diagonal-only cages).");
       return;
     }
     const raw = window.prompt("Enter target sum for this cage:");
@@ -74,6 +123,23 @@ function PuzzleCreator() {
 
     setCages((prev) => [...prev, { targetSum, cells }]);
     setSelected([]);
+  };
+
+  const handleDeleteCage = (cageIndex) => {
+    setCages((prev) => prev.filter((_, idx) => idx !== cageIndex));
+  };
+
+  const handleEditCageSum = (cageIndex) => {
+    const raw = window.prompt("Enter new target sum:", String(cages[cageIndex].targetSum));
+    if (raw === null) return;
+    const targetSum = Number(raw);
+    if (!Number.isInteger(targetSum) || targetSum < 1) {
+      setMessage("Target sum must be a positive integer.");
+      return;
+    }
+    setCages((prev) =>
+      prev.map((cage, idx) => (idx === cageIndex ? { ...cage, targetSum } : cage))
+    );
   };
 
   const handleSave = async () => {
@@ -120,10 +186,38 @@ function PuzzleCreator() {
         key={key}
         type="button"
         className={`creator-cell ${isSelected ? "selected" : ""}`}
-        style={borders}
+        style={{
+          ...borders,
+          backgroundColor: cageIndex !== undefined ? cageColor(cageIndex) : undefined,
+        }}
         onClick={() => handleCellClick(row, col)}
+        title={cageIndex !== undefined ? "Already in a cage - delete it first" : ""}
       >
-        {showSum ? <span className="cage-sum">{cages[cageIndex].targetSum}</span> : null}
+        {showSum ? (
+          <button
+            type="button"
+            className="cage-sum-button"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleEditCageSum(cageIndex);
+            }}
+          >
+            {cages[cageIndex].targetSum}
+          </button>
+        ) : null}
+        {cageIndex !== undefined ? (
+          <button
+            type="button"
+            className="cage-delete"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleDeleteCage(cageIndex);
+            }}
+            title="Delete cage"
+          >
+            x
+          </button>
+        ) : null}
       </button>
     );
   };

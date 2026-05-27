@@ -201,12 +201,8 @@ function solveKillerSudoku(input) {
   return { solution, isUnique: solutionCount === 1 };
 }
 
-function getHint(input) {
-  const { solution } = solveKillerSudoku(input);
-  if (!solution) return null;
-
-  const grid = input.grid;
-  const { cageByCell } = buildCageMap(input.cages);
+function getHintFromSolution(grid, cages, solution) {
+  const { cageByCell } = buildCageMap(cages);
   const used = computeUsed(grid);
 
   let best = null;
@@ -226,7 +222,15 @@ function getHint(input) {
   return { row: best.row, col: best.col, value: solution[best.row][best.col] };
 }
 
+function getHint(input) {
+  const { solution } = solveKillerSudoku(input);
+  if (!solution) return null;
+
+  return getHintFromSolution(input.grid, input.cages, solution);
+}
+
 module.exports = {
   solveKillerSudoku,
   getHint,
+  getHintFromSolution,
 };

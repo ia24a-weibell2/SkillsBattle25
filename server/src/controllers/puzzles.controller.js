@@ -3,7 +3,7 @@
 const { createPuzzle, listPuzzles, getPuzzleById } = require("../models/Puzzle");
 const { saveResult } = require("../models/Result");
 const { upsertRating } = require("../models/Rating");
-const { solveKillerSudoku, getHint } = require("../services/solver");
+const { solveKillerSudoku, getHintFromSolution } = require("../services/solver");
 const {
   isValidDifficulty,
   validateCages,
@@ -129,7 +129,19 @@ async function hint(req, res, next) {
     }
 
     const cages = normalizeCages(puzzle.cages);
-    const hintResult = getHint({ grid, cages });
+    const emptyGrid = Array.from({ length: 9 }, () => Array(9).fill(0));
+    const { solution } = solveKillerSudoku({ grid: emptyGrid, cages });
+    if (!solution) {
+      return res.status(404).json({ error: "No hint available" });
+    }
+
+    const normalizedGrid = grid.map((row, r) =>
+      row.map((value, c) =>
+        value !== 0 && value !== solution[r][c] ? 0 : value
+      )
+    );
+
+    const hintResult = getHintFromSolution(normalizedGrid, cages, solution);
     if (!hintResult) {
       return res.status(404).json({ error: "No hint available" });
     }
