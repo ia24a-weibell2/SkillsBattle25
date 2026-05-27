@@ -197,7 +197,7 @@ function PuzzleSolver() {
               <button className="secondary-button" type="button" onClick={handleHint}>
                 Hint
               </button>
-              <button className="primary-button" type="button" onClick={handleCheck}>
+              <button className="primary-button" type="button" onClick={handleCheck} disabled={solved}>
                 Check solution
               </button>
               <button className="secondary-button" type="button" onClick={handleAutoSolve}>
